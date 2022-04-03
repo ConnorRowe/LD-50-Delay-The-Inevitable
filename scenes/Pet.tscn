@@ -24,9 +24,9 @@ autostart = true
 
 [node name="debug" type="Label" parent="."]
 margin_left = -68.0
-margin_top = 21.0
+margin_top = -45.0
 margin_right = 72.0
-margin_bottom = 49.0
+margin_bottom = -17.0
 custom_fonts/font = ExtResource( 3 )
 text = "state"
 align = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scenes/World.cs" type="Script" id=1]
 [ext_resource path="res://scenes/Pet.tscn" type="PackedScene" id=2]
@@ -13,6 +13,11 @@
 [ext_resource path="res://scenes/ItemButton.tscn" type="PackedScene" id=11]
 [ext_resource path="res://font/Tiny.tres" type="DynamicFont" id=12]
 [ext_resource path="res://font/Normal.tres" type="DynamicFont" id=13]
+[ext_resource path="res://textures/progress_nineslice_under.png" type="Texture" id=14]
+[ext_resource path="res://textures/progress_nineslice_fill.png" type="Texture" id=15]
+[ext_resource path="res://textures/meal.png" type="Texture" id=16]
+[ext_resource path="res://textures/clean_poo.png" type="Texture" id=17]
+[ext_resource path="res://textures/medicine.png" type="Texture" id=18]
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 8 )
@@ -34,6 +39,18 @@ size = 32
 outline_size = 1
 outline_color = Color( 0.0235294, 0.0235294, 0.0235294, 1 )
 font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxTexture" id=10]
+texture = ExtResource( 16 )
+region_rect = Rect2( 0, 0, 22, 22 )
+
+[sub_resource type="StyleBoxTexture" id=11]
+texture = ExtResource( 17 )
+region_rect = Rect2( 0, 0, 22, 22 )
+
+[sub_resource type="StyleBoxTexture" id=12]
+texture = ExtResource( 18 )
+region_rect = Rect2( 0, 0, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 5 )
@@ -83,6 +100,8 @@ position = Vector2( 0, 142 )
 texture = ExtResource( 6 )
 centered = false
 
+[node name="Poos" type="Node2D" parent="."]
+
 [node name="Pet" parent="." instance=ExtResource( 2 )]
 position = Vector2( 225, 201.5 )
 
@@ -93,6 +112,15 @@ margin_right = 302.0
 margin_bottom = 48.0
 custom_fonts/font = SubResource( 1 )
 text = "Age: 2 hours"
+
+[node name="YourPetIsLabel" type="Label" parent="."]
+margin_left = 109.0
+margin_top = 92.0
+margin_right = 341.0
+margin_bottom = 120.0
+custom_fonts/font = SubResource( 1 )
+text = "Your pet is: Okay"
+align = 1
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 margin_left = 450.0
@@ -125,73 +153,35 @@ margin_bottom = 266.0
 [node name="Treat" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
 GoldCost = 50
 ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
+ItemDesc = "Increases pet happiness & feeds the pet a little bit."
 
-[node name="Treat2" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+[node name="Meal" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
 margin_top = 26.0
 margin_bottom = 48.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
+custom_styles/panel = SubResource( 10 )
+GoldCost = 25
+ItemName = "Meal"
+ItemDesc = "Fills pet's hunger."
 
-[node name="Treat3" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+[node name="Cleanup" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
 margin_top = 52.0
 margin_bottom = 74.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
+custom_styles/panel = SubResource( 11 )
+GoldCost = 5
+ItemName = "Cleanup"
+ItemDesc = "Cleans up 1 poo."
 
-[node name="Treat4" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+[node name="Medicine" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
 margin_top = 78.0
 margin_bottom = 100.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
-
-[node name="Treat5" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
-margin_top = 104.0
-margin_bottom = 126.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
-
-[node name="Treat6" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
-margin_top = 130.0
-margin_bottom = 152.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
-
-[node name="Treat7" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
-margin_top = 156.0
-margin_bottom = 178.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
-
-[node name="Treat8" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
-margin_top = 182.0
-margin_bottom = 204.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
-
-[node name="Treat9" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
-margin_top = 208.0
-margin_bottom = 230.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
-
-[node name="Treat10" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
-margin_top = 234.0
-margin_bottom = 256.0
-GoldCost = 50
-ItemName = "Treat"
-ItemDesc = "Increases pet happiness & lowers hunger."
+custom_styles/panel = SubResource( 12 )
+GoldCost = 300
+ItemName = "Medicine"
+ItemDesc = "Cures sickness. You're only delaying the inevitable though."
 
 [node name="PetCursor" type="AnimatedSprite" parent="."]
 visible = false
+z_index = 4096
 frames = SubResource( 6 )
 
 [node name="GoldCoin" type="TextureRect" parent="."]
@@ -259,3 +249,88 @@ custom_fonts/font = ExtResource( 10 )
 text = "150"
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="HungerBar" type="TextureProgress" parent="."]
+margin_left = 162.0
+margin_top = 65.0
+margin_right = 298.0
+margin_bottom = 69.0
+max_value = 1.0
+step = 0.001
+value = 0.645
+texture_under = ExtResource( 14 )
+texture_progress = ExtResource( 15 )
+tint_progress = Color( 0.996078, 1, 0.388235, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_top = 2
+stretch_margin_right = 2
+stretch_margin_bottom = 2
+
+[node name="Label" type="Label" parent="HungerBar"]
+margin_left = -46.0
+margin_top = -7.0
+margin_right = 59.0
+margin_bottom = 7.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 10 )
+text = "Hunger:"
+
+[node name="HygieneBar" type="TextureProgress" parent="."]
+margin_left = 162.0
+margin_top = 77.0
+margin_right = 298.0
+margin_bottom = 81.0
+max_value = 1.0
+step = 0.001
+value = 0.645
+texture_under = ExtResource( 14 )
+texture_progress = ExtResource( 15 )
+tint_progress = Color( 0.501961, 1, 0.388235, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_top = 2
+stretch_margin_right = 2
+stretch_margin_bottom = 2
+
+[node name="Label" type="Label" parent="HygieneBar"]
+margin_left = -48.0
+margin_top = -7.0
+margin_right = 57.0
+margin_bottom = 7.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 10 )
+text = "Hygiene:"
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_left = 162.0
+margin_top = 89.0
+margin_right = 298.0
+margin_bottom = 93.0
+max_value = 2.0
+step = 0.001
+value = 0.645
+texture_under = ExtResource( 14 )
+texture_progress = ExtResource( 15 )
+tint_progress = Color( 1, 0.388235, 0.388235, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_top = 2
+stretch_margin_right = 2
+stretch_margin_bottom = 2
+
+[node name="Label" type="Label" parent="HealthBar"]
+margin_left = -40.0
+margin_top = -7.0
+margin_right = 65.0
+margin_bottom = 7.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 10 )
+text = "Health:"
+
+[node name="UpdatePetStatusTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true

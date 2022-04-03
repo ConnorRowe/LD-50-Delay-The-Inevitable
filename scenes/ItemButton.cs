@@ -14,6 +14,8 @@ namespace Inevitable
         public override void _Ready()
         {
             base._Ready();
+
+            GetNode<Label>("MarginContainer/GoldLabel").Text = $"{GoldCost}";
         }
     }
 }
