@@ -1,0 +1,261 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://scenes/World.cs" type="Script" id=1]
+[ext_resource path="res://scenes/Pet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://font/HelvetiPixel.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://textures/inventory_nine_slice.png" type="Texture" id=4]
+[ext_resource path="res://textures/pet_cursor.png" type="Texture" id=5]
+[ext_resource path="res://textures/grass.png" type="Texture" id=6]
+[ext_resource path="res://textures/sky_packed.png" type="Texture" id=7]
+[ext_resource path="res://shaders/Sky.gdshader" type="Shader" id=8]
+[ext_resource path="res://textures/gold_coin.png" type="Texture" id=9]
+[ext_resource path="res://font/Gold.tres" type="DynamicFont" id=10]
+[ext_resource path="res://scenes/ItemButton.tscn" type="PackedScene" id=11]
+[ext_resource path="res://font/Tiny.tres" type="DynamicFont" id=12]
+[ext_resource path="res://font/Normal.tres" type="DynamicFont" id=13]
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 8 )
+shader_param/sky_gradient_steps = 10.0
+shader_param/time = 0.0
+shader_param/dawn_start = Color( 0.521569, 0.329412, 0.941176, 1 )
+shader_param/dawn_end = Color( 0.964706, 0.603922, 0.384314, 1 )
+shader_param/noon_start = Color( 0, 0.670588, 1, 1 )
+shader_param/noon_end = Color( 0.815686, 1, 0.984314, 1 )
+shader_param/dusk_start = Color( 0.733333, 0, 1, 1 )
+shader_param/dusk_end = Color( 1, 0.584314, 0, 1 )
+shader_param/night_start = Color( 0.117647, 0, 0.270588, 1 )
+shader_param/night_end = Color( 0, 0.0784314, 0.501961, 1 )
+shader_param/cloud_speed = 0.004
+shader_param/game_speed = 1.0
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+outline_size = 1
+outline_color = Color( 0.0235294, 0.0235294, 0.0235294, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 20, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 40, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 60, 0, 20, 20 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 4 ), SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
+
+[sub_resource type="StyleBoxTexture" id=9]
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 7, 7 )
+margin_left = 3.0
+margin_right = 3.0
+margin_top = 3.0
+margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+expand_margin_top = 1.0
+
+[node name="World" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Sky" type="Sprite" parent="."]
+material = SubResource( 8 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="GrassBG" type="Sprite" parent="."]
+position = Vector2( 0, 142 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Pet" parent="." instance=ExtResource( 2 )]
+position = Vector2( 225, 201.5 )
+
+[node name="AgeLabel" type="Label" parent="."]
+margin_left = 162.0
+margin_top = 20.0
+margin_right = 302.0
+margin_bottom = 48.0
+custom_fonts/font = SubResource( 1 )
+text = "Age: 2 hours"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+margin_left = 450.0
+margin_right = 480.0
+margin_bottom = 270.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 4 )
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="InvContainer" type="MarginContainer" parent="NinePatchRect"]
+margin_right = 30.0
+margin_bottom = 270.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
+
+[node name="InvVBox" type="VBoxContainer" parent="NinePatchRect/InvContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 26.0
+margin_bottom = 266.0
+
+[node name="Treat" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat2" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 26.0
+margin_bottom = 48.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat3" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 52.0
+margin_bottom = 74.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat4" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 78.0
+margin_bottom = 100.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat5" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 104.0
+margin_bottom = 126.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat6" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 130.0
+margin_bottom = 152.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat7" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 156.0
+margin_bottom = 178.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat8" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 182.0
+margin_bottom = 204.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat9" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 208.0
+margin_bottom = 230.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="Treat10" parent="NinePatchRect/InvContainer/InvVBox" instance=ExtResource( 11 )]
+margin_top = 234.0
+margin_bottom = 256.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & lowers hunger."
+
+[node name="PetCursor" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 6 )
+
+[node name="GoldCoin" type="TextureRect" parent="."]
+margin_left = 2.0
+margin_top = 254.0
+margin_right = 16.0
+margin_bottom = 268.0
+texture = ExtResource( 9 )
+
+[node name="GoldLabel" type="Label" parent="GoldCoin"]
+margin_left = 16.0
+margin_right = 121.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0.894118, 0.231373, 0.266667, 1 )
+custom_fonts/font = ExtResource( 10 )
+text = "150"
+
+[node name="TooltipPanel" type="PanelContainer" parent="."]
+margin_left = 367.0
+margin_top = 4.0
+margin_right = 447.0
+margin_bottom = 53.0
+rect_pivot_offset = Vector2( 80, 0 )
+custom_styles/panel = SubResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TooltipPanel"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 77.0
+margin_bottom = 46.0
+
+[node name="ItemName" type="Label" parent="TooltipPanel/VBoxContainer"]
+margin_right = 74.0
+margin_bottom = 8.0
+custom_fonts/font = ExtResource( 13 )
+text = "Item Name"
+
+[node name="Desc" type="Label" parent="TooltipPanel/VBoxContainer"]
+margin_top = 12.0
+margin_right = 74.0
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 12 )
+text = "This is a description for an itemkjlkjlkjlkjlkjlkjl"
+autowrap = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TooltipPanel/VBoxContainer"]
+margin_top = 25.0
+margin_right = 74.0
+margin_bottom = 39.0
+custom_constants/separation = 1
+
+[node name="TextureRect" type="TextureRect" parent="TooltipPanel/VBoxContainer/HBoxContainer"]
+margin_right = 14.0
+margin_bottom = 14.0
+texture = ExtResource( 9 )
+
+[node name="GoldLabel" type="Label" parent="TooltipPanel/VBoxContainer/HBoxContainer"]
+margin_left = 15.0
+margin_right = 32.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0.894118, 0.231373, 0.266667, 1 )
+custom_fonts/font = ExtResource( 10 )
+text = "150"
+
+[node name="Tween" type="Tween" parent="."]
