@@ -244,7 +244,7 @@ namespace Inevitable
             newPoo.Offset = new Vector2(0, -16);
             newPoo.FlipH = RNG.Randf() > .5f;
 
-            MakeSmokePuff(pos, Colors.Brown);
+            MakeSmokePuff(pos, new Color("4f3118"));
             GlobalNodes.PlayRandomFart();
 
             pet.UpdateHygiene();
