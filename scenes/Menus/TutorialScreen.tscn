@@ -1,0 +1,266 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://scenes/Menus/MenuScreen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://font/Normal.tres" type="DynamicFont" id=2]
+[ext_resource path="res://font/Large.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scenes/Menus/TutorialScreen.cs" type="Script" id=4]
+[ext_resource path="res://textures/pet_cursor.png" type="Texture" id=5]
+[ext_resource path="res://scenes/Hearts.tscn" type="PackedScene" id=6]
+[ext_resource path="res://textures/happy.png" type="Texture" id=7]
+[ext_resource path="res://textures/gold_coin.png" type="Texture" id=8]
+[ext_resource path="res://textures/clean_poo.png" type="Texture" id=9]
+[ext_resource path="res://textures/meal.png" type="Texture" id=10]
+[ext_resource path="res://textures/medicine.png" type="Texture" id=11]
+[ext_resource path="res://textures/textbox_nineslice.png" type="Texture" id=12]
+[ext_resource path="res://font/Gold.tres" type="DynamicFont" id=13]
+[ext_resource path="res://font/Tiny.tres" type="DynamicFont" id=14]
+[ext_resource path="res://scenes/ItemButton.tscn" type="PackedScene" id=15]
+[ext_resource path="res://textures/inventory_nine_slice.png" type="Texture" id=16]
+
+[sub_resource type="StyleBoxTexture" id=17]
+texture = ExtResource( 12 )
+region_rect = Rect2( 0, 0, 13, 13 )
+margin_left = 6.0
+margin_right = 6.0
+margin_top = 6.0
+margin_bottom = 6.0
+expand_margin_left = 1.0
+expand_margin_right = 8.0
+expand_margin_top = 1.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 20, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 40, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 60, 0, 20, 20 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 4 ), SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 10 )
+region_rect = Rect2( 0, 0, 22, 22 )
+
+[sub_resource type="StyleBoxTexture" id=8]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 22, 22 )
+
+[sub_resource type="StyleBoxTexture" id=9]
+texture = ExtResource( 11 )
+region_rect = Rect2( 0, 0, 22, 22 )
+
+[sub_resource type="StyleBoxTexture" id=16]
+texture = ExtResource( 12 )
+region_rect = Rect2( 0, 0, 13, 13 )
+margin_left = 6.0
+margin_right = 6.0
+margin_top = 6.0
+margin_bottom = 6.0
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+expand_margin_top = 1.0
+
+[node name="TutorialScreen" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+
+[node name="NextSceneButton" parent="Content" index="0"]
+anchor_left = 0.5
+anchor_top = 1.23704
+anchor_right = 0.5
+anchor_bottom = 1.23704
+margin_left = -43.0
+margin_top = -95.0
+margin_right = 43.0
+margin_bottom = -73.0
+text = "Start playing!"
+
+[node name="Title" type="Label" parent="Content" index="1"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -135.0
+margin_right = 141.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 3 )
+text = "Tutorial"
+align = 1
+
+[node name="Body" type="Label" parent="Content" index="2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -178.0
+margin_top = -106.0
+margin_right = 170.0
+margin_bottom = 95.0
+custom_fonts/font = ExtResource( 2 )
+custom_styles/normal = SubResource( 17 )
+text = "To look after your blorb you must keep it happy, fed, and clean. Otherwise, they will get sick! Just keep the big bars filled.
+
+To make it happy, pet it with your mouse cursor. (hold the left button when hovering over it)
+
+To feed your pet and clean up after them, you must buy items from the shop on the right side of the screen.
+
+You can see what each item does by hovering over it. Your money is in the bottom left corner.
+
+Your job pays you 50 coins per day.
+
+Before you start, you can toggle fullscreen with F11, and adjust the volume with the slider in the top left."
+align = 3
+autowrap = true
+
+[node name="Happy" type="Sprite" parent="Content" index="3"]
+position = Vector2( -156, 111 )
+texture = ExtResource( 7 )
+offset = Vector2( 195, 0 )
+
+[node name="PetCursor" type="AnimatedSprite" parent="Content/Happy" index="0"]
+position = Vector2( 206, -3 )
+z_index = 4096
+frames = SubResource( 6 )
+frame = 2
+playing = true
+
+[node name="Hearts" parent="Content/Happy" index="1" instance=ExtResource( 6 )]
+position = Vector2( 194, 0 )
+emitting = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content" index="4"]
+margin_left = 450.0
+margin_right = 480.0
+margin_bottom = 270.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 16 )
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="InvContainer" type="MarginContainer" parent="Content/NinePatchRect" index="0"]
+margin_right = 30.0
+margin_bottom = 270.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
+
+[node name="InvVBox" type="VBoxContainer" parent="Content/NinePatchRect/InvContainer" index="0"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 26.0
+margin_bottom = 266.0
+
+[node name="Meal" parent="Content/NinePatchRect/InvContainer/InvVBox" index="0" instance=ExtResource( 15 )]
+custom_styles/panel = SubResource( 7 )
+GoldCost = 25
+ItemName = "Meal"
+ItemDesc = "Fills pet's hunger."
+
+[node name="Cleanup" parent="Content/NinePatchRect/InvContainer/InvVBox" index="1" instance=ExtResource( 15 )]
+margin_top = 26.0
+margin_bottom = 48.0
+custom_styles/panel = SubResource( 8 )
+GoldCost = 5
+ItemName = "Cleanup"
+ItemDesc = "Cleans up 1 poo."
+
+[node name="Medicine" parent="Content/NinePatchRect/InvContainer/InvVBox" index="2" instance=ExtResource( 15 )]
+margin_top = 52.0
+margin_bottom = 74.0
+custom_styles/panel = SubResource( 9 )
+GoldCost = 300
+ItemName = "Medicine"
+ItemDesc = "Cures sickness. You're only delaying the inevitable though."
+
+[node name="Treat" parent="Content/NinePatchRect/InvContainer/InvVBox" index="3" instance=ExtResource( 15 )]
+margin_top = 78.0
+margin_bottom = 100.0
+GoldCost = 50
+ItemName = "Treat"
+ItemDesc = "Increases pet happiness & feeds the pet a little bit."
+
+[node name="TooltipPanel" type="PanelContainer" parent="Content" index="5"]
+margin_left = 367.0
+margin_top = 4.0
+margin_right = 447.0
+margin_bottom = 53.0
+rect_pivot_offset = Vector2( 80, 0 )
+custom_styles/panel = SubResource( 16 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/TooltipPanel" index="0"]
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 74.0
+margin_bottom = 52.0
+
+[node name="ItemName" type="Label" parent="Content/TooltipPanel/VBoxContainer" index="0"]
+margin_right = 68.0
+margin_bottom = 9.0
+custom_fonts/font = ExtResource( 2 )
+text = "Item Name"
+
+[node name="Desc" type="Label" parent="Content/TooltipPanel/VBoxContainer" index="1"]
+margin_top = 13.0
+margin_right = 68.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 14 )
+text = "This is a description for an itemkjlkjlkjlkjlkjlkjl"
+autowrap = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Content/TooltipPanel/VBoxContainer" index="2"]
+margin_top = 32.0
+margin_right = 68.0
+margin_bottom = 46.0
+size_flags_vertical = 3
+custom_constants/separation = 1
+
+[node name="TextureRect" type="TextureRect" parent="Content/TooltipPanel/VBoxContainer/HBoxContainer" index="0"]
+margin_right = 14.0
+margin_bottom = 14.0
+size_flags_vertical = 8
+texture = ExtResource( 8 )
+
+[node name="GoldLabel" type="Label" parent="Content/TooltipPanel/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 15.0
+margin_right = 32.0
+margin_bottom = 14.0
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0.894118, 0.231373, 0.266667, 1 )
+custom_fonts/font = ExtResource( 13 )
+text = "150"
+
+[node name="GoldCoin" type="TextureRect" parent="Content" index="7"]
+margin_left = 2.0
+margin_top = 254.0
+margin_right = 16.0
+margin_bottom = 268.0
+texture = ExtResource( 8 )
+
+[node name="GoldLabel" type="Label" parent="Content/GoldCoin" index="0"]
+margin_left = 16.0
+margin_right = 121.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0.894118, 0.231373, 0.266667, 1 )
+custom_fonts/font = ExtResource( 13 )
+text = "150"

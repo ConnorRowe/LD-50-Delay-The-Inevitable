@@ -3,7 +3,7 @@
 [ext_resource path="res://font/HelvetiPixel.ttf" type="DynamicFontData" id=1]
 
 [resource]
-extra_spacing_top = -3
+extra_spacing_top = -2
 extra_spacing_bottom = -3
-extra_spacing_space = -3
+extra_spacing_space = -2
 font_data = ExtResource( 1 )

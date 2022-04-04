@@ -1,0 +1,84 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scenes/Menus/MenuScreen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://textures/textbox_nineslice.png" type="Texture" id=2]
+[ext_resource path="res://font/Normal.tres" type="DynamicFont" id=3]
+[ext_resource path="res://textures/gravestone.png" type="Texture" id=4]
+[ext_resource path="res://font/HelvetiPixel.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://scenes/Menus/ContentWarningScreen.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/Menus/GameEndScreen.cs" type="Script" id=7]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 13, 13 )
+margin_left = 6.0
+margin_right = 6.0
+margin_top = 6.0
+margin_bottom = 6.0
+expand_margin_left = 1.0
+expand_margin_right = 8.0
+expand_margin_top = 1.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="DynamicFont" id=2]
+outline_size = 1
+extra_spacing_char = 1
+extra_spacing_space = 2
+font_data = ExtResource( 5 )
+
+[node name="GameEndScreen" instance=ExtResource( 1 )]
+script = ExtResource( 7 )
+nextScene = ExtResource( 6 )
+
+[node name="NextSceneButton" parent="Content" index="0"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -55.0
+margin_top = -38.0
+margin_right = 55.0
+margin_bottom = -20.0
+text = "Return to the start"
+
+[node name="Body" type="Label" parent="Content" index="2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -175.0
+margin_top = 33.0
+margin_right = 167.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 3 )
+custom_styles/normal = SubResource( 1 )
+text = "
+Thanks for playing, I hope it was a memorable experience!
+                                                                                              - Connor"
+align = 3
+autowrap = true
+
+[node name="TextureRect" type="TextureRect" parent="Content" index="3"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -93.0
+margin_right = 100.0
+margin_bottom = 35.0
+texture = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="Content/TextureRect" index="0"]
+margin_left = 37.0
+margin_top = 40.0
+margin_right = 162.0
+margin_bottom = 105.0
+custom_colors/font_color = Color( 0.14902, 0.168627, 0.266667, 1 )
+custom_colors/font_outline_modulate = Color( 0.352941, 0.411765, 0.533333, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "R.I.P
+Pet Name asdasda
+
+year - year"
+align = 1

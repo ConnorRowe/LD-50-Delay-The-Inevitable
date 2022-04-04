@@ -23,6 +23,14 @@ namespace Inevitable
         private static Texture happyTex = GD.Load<Texture>("res://textures/happy.png");
         private static Texture neutralTex = GD.Load<Texture>("res://textures/neutral.png");
         private static Texture sadTex = GD.Load<Texture>("res://textures/sad.png");
+        private static Texture sickTex = GD.Load<Texture>("res://textures/sick.png");
+        private static Texture dyingTex = GD.Load<Texture>("res://textures/dying.png");
+        private static Texture deadTex = GD.Load<Texture>("res://textures/dead.png");
+        private static Texture decayTex = GD.Load<Texture>("res://textures/decay.png");
+        private static Texture advDecayTex = GD.Load<Texture>("res://textures/adv_decay.png");
+        private static Texture dryTex = GD.Load<Texture>("res://textures/dry.png");
+        private static Texture skeletonTex = GD.Load<Texture>("res://textures/skeleton.png");
+        private static Texture graveTex = GD.Load<Texture>("res://textures/grave.png");
 
         public float Mood { get; set; } = 1f;
         public float Hunger { get; set; } = 1f;
@@ -41,6 +49,10 @@ namespace Inevitable
         private Label debug;
         private Vector2 goalPosition = World.PetAreaMidPoint;
         private World world;
+        private Particles2D hearts;
+        private Particles2D flies;
+        private Particles2D maggots;
+
 
         public override void _Ready()
         {
@@ -50,6 +62,9 @@ namespace Inevitable
             behaviourTimer = GetNode<Timer>("BehaviourTimer");
             sprite = GetNode<Sprite>("Sprite");
             debug = GetNode<Label>("debug");
+            hearts = GetNode<Particles2D>("Hearts");
+            flies = GetNode<Particles2D>("Flies");
+            maggots = GetNode<Particles2D>("Maggots");
 
             GetNode("Area2D").Connect("mouse_entered", this, "emit_signal", new Godot.Collections.Array() { nameof(MouseOver), true });
             GetNode("Area2D").Connect("mouse_exited", this, "emit_signal", new Godot.Collections.Array() { nameof(MouseOver), false });
@@ -68,6 +83,8 @@ namespace Inevitable
             {
                 AddMood(.03f * delta * World.GameSpeedModifier);
             }
+
+            hearts.Emitting = BeingStroked;
 
             // Passively deplete mood & hunger
             AddMood(-.005f * delta * World.GameSpeedModifier);
@@ -110,7 +127,7 @@ namespace Inevitable
             // If the pet is old, its health will drop no matter what
             if (IsOld)
             {
-                health -= (.02f + (world.DaysPassed - 13) * 0.05f) * delta * World.GameSpeedModifier;
+                health -= (.02f + (world.DaysPassed - 14) * 0.01f) * delta * World.GameSpeedModifier;
                 health = Mathf.Clamp(health, 0f, 2f);
             }
 
@@ -120,6 +137,8 @@ namespace Inevitable
             {
                 CurrentState = PetState.Sick;
                 countdown = 4f;
+
+                sprite.Texture = sickTex;
             }
 
             if (countdown > 0f)
@@ -143,6 +162,10 @@ namespace Inevitable
                         countdown = .5f;
 
                         GlobalNodes.ActivateMusicDistortion();
+                        world.ShowNoiseOverlay();
+                        world.HideBars();
+
+                        sprite.Texture = dyingTex;
                     }
                     break;
                 case PetState.Dying:
@@ -153,7 +176,11 @@ namespace Inevitable
                     {
                         CurrentState = PetState.Dead;
 
-                        countdown = .5f;
+                        countdown = 1f;
+
+                        sprite.Texture = deadTex;
+
+                        flies.Emitting = true;
                     }
                     break;
                 case PetState.Dead:
@@ -161,7 +188,12 @@ namespace Inevitable
                     {
                         CurrentState = PetState.Bloat;
 
-                        countdown = .5f;
+                        countdown = 1f;
+
+                        sprite.Texture = decayTex;
+
+                        flies.Emitting = false;
+                        maggots.Emitting = true;
                     }
                     break;
                 case PetState.Bloat:
@@ -169,7 +201,9 @@ namespace Inevitable
                     {
                         CurrentState = PetState.Decay;
 
-                        countdown = .5f;
+                        countdown = 1f;
+
+                        sprite.Texture = advDecayTex;
                     }
                     break;
                 case PetState.Decay:
@@ -177,7 +211,12 @@ namespace Inevitable
                     {
                         CurrentState = PetState.Dry;
 
-                        countdown = .5f;
+                        countdown = 1f;
+
+                        sprite.Texture = dryTex;
+
+                        maggots.Emitting = false;
+                        flies.Emitting = true;
                     }
                     break;
                 case PetState.Dry:
@@ -185,7 +224,7 @@ namespace Inevitable
                     {
                         CurrentState = PetState.Skeletal;
 
-
+                        sprite.Texture = skeletonTex;
                     }
                     break;
                 case PetState.Skeletal:
@@ -234,6 +273,9 @@ namespace Inevitable
 
             Mood = Mathf.Clamp(Mood, 0f, 1f);
 
+            if (CurrentState != PetState.Idle && CurrentState != PetState.Roam)
+                return;
+
             if (Mood < .333f)
             {
                 sprite.Texture = sadTex;
@@ -250,6 +292,9 @@ namespace Inevitable
 
         public void AddHunger(float value)
         {
+            if (value > 0f)
+                GlobalNodes.PlayChomp();
+
             Hunger += value;
 
             Hunger = Mathf.Clamp(Hunger, 0f, 1f);
@@ -267,6 +312,11 @@ namespace Inevitable
                 CurrentState = PetState.Idle;
                 health = 1f;
             }
+        }
+
+        public void Bury()
+        {
+            sprite.Texture = graveTex;
         }
     }
 }

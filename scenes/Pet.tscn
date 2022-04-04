@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://textures/neutral.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Pet.cs" type="Script" id=2]
 [ext_resource path="res://font/NormalOutline.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scenes/Flies.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Maggots.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Hearts.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 21.2132
@@ -23,6 +26,7 @@ wait_time = 8.0
 autostart = true
 
 [node name="debug" type="Label" parent="."]
+visible = false
 margin_left = -68.0
 margin_top = -45.0
 margin_right = 72.0
@@ -30,3 +34,12 @@ margin_bottom = -17.0
 custom_fonts/font = ExtResource( 3 )
 text = "state"
 align = 1
+
+[node name="Flies" parent="." instance=ExtResource( 4 )]
+emitting = false
+
+[node name="Maggots" parent="." instance=ExtResource( 5 )]
+show_behind_parent = true
+emitting = false
+
+[node name="Hearts" parent="." instance=ExtResource( 6 )]

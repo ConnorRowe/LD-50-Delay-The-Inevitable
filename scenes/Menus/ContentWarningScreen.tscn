@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/Menus/MenuScreen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://font/Normal.tres" type="DynamicFont" id=2]
+[ext_resource path="res://font/Large.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scenes/Menus/NamePetScreen.tscn" type="PackedScene" id=4]
+
+[node name="ContentWarningScreen" instance=ExtResource( 1 )]
+nextScene = ExtResource( 4 )
+
+[node name="NextSceneButton" parent="Content" index="0"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -108.0
+margin_top = 41.0
+margin_right = 108.0
+margin_bottom = 63.0
+text = "I understand, I'm a big brave grown-up!"
+
+[node name="Title" type="Label" parent="Content" index="1"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.0
+margin_top = -79.0
+margin_right = 92.0
+margin_bottom = -51.0
+custom_fonts/font = ExtResource( 3 )
+text = "Content Warning"
+
+[node name="Body" type="Label" parent="Content" index="2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -131.0
+margin_top = -22.5
+margin_right = 131.0
+margin_bottom = 22.5
+custom_fonts/font = ExtResource( 2 )
+text = "This game contains content that some users could find disturbing.  If you are not an adult, or you are emotionally fragile, please don't continue."
+align = 3
+autowrap = true

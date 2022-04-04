@@ -33,6 +33,7 @@ namespace Inevitable
         private TextureProgress healthBar;
         private Node2D poos;
         private Label petStatusLabel;
+        private ColorRect fadeOverlay;
 
         private float time = 0f;
         private int daysPassed = 0;
@@ -56,6 +57,7 @@ namespace Inevitable
             healthBar = GetNode<TextureProgress>("HealthBar");
             poos = GetNode<Node2D>("Poos");
             petStatusLabel = GetNode<Label>("YourPetIsLabel");
+            fadeOverlay = GetNode<ColorRect>("CanvasLayer/FadeOverlay");
 
             pet.Connect(nameof(Pet.MouseOver), this, nameof(MouseOverPet));
             GetNode("UpdatePetStatusTimer").Connect("timeout", this, nameof(UpdatePetStatus));
@@ -76,10 +78,17 @@ namespace Inevitable
                 if (child is ItemButton itemButton)
                 {
                     itemButton.Connect("mouse_entered", this, nameof(ItemButtonMouseOver), new Godot.Collections.Array() { itemButton, true });
+                    itemButton.Connect("mouse_entered", GlobalNodes.INSTANCE, nameof(GlobalNodes.PlayUIClick));
                     itemButton.Connect("mouse_exited", this, nameof(ItemButtonMouseOver), new Godot.Collections.Array() { itemButton, false });
                     itemButton.GetNode("TextureButton").Connect("pressed", this, nameof(ItemButtonPressed), new Godot.Collections.Array() { itemButton });
                 }
             }
+
+            fadeOverlay.Visible = true;
+            tween.InterpolateProperty(fadeOverlay, "modulate", Colors.White, Colors.Transparent, .4f);
+            tween.Start();
+
+            UpdatePetStatus();
         }
 
         public override void _Process(float delta)
@@ -211,6 +220,11 @@ namespace Inevitable
                     case "Medicine":
                         pet.CureSickness();
                         break;
+                    case "Burial":
+                        pet.Bury();
+                        EndGame();
+                        MakeSmokePuff(pet.Position);
+                        break;
                 }
             }
         }
@@ -231,6 +245,7 @@ namespace Inevitable
             newPoo.FlipH = RNG.Randf() > .5f;
 
             MakeSmokePuff(pos, Colors.Brown);
+            GlobalNodes.PlayRandomFart();
 
             pet.UpdateHygiene();
         }
@@ -268,6 +283,8 @@ namespace Inevitable
             newSmokePuff.Position = pos;
             newSmokePuff.Emitting = true;
             GetTree().CreateTimer(.8f).Connect("timeout", newSmokePuff, "queue_free");
+
+            GlobalNodes.PlayPuff();
         }
 
         private void UpdatePetStatus()
@@ -329,7 +346,54 @@ namespace Inevitable
                     status = "Gone";
                     break;
             }
-            petStatusLabel.Text = $"Your pet is: {status}";
+            petStatusLabel.Text = $"{GlobalNodes.PetName} is: {status}";
+        }
+
+        public void ShowNoiseOverlay()
+        {
+            ColorRect noiseOverlay = GetNode<ColorRect>("CanvasLayer/NoiseOverlay");
+            noiseOverlay.Visible = true;
+            tween.InterpolateProperty(noiseOverlay, "modulate", Colors.Transparent, new Color(1f, 1f, 1f, .12f), 10f);
+            tween.Start();
+        }
+
+        public void HideBars()
+        {
+            tween.InterpolateProperty(hungerBar, "modulate", Colors.White, Colors.Transparent, 1.5f);
+            tween.InterpolateProperty(hygieneBar, "modulate", Colors.White, Colors.Transparent, 1.5f);
+            tween.InterpolateProperty(healthBar, "modulate", Colors.White, Colors.Transparent, 1.5f);
+            tween.Start();
+
+            MakeSmokePuff(new Vector2(168, 76));
+            MakeSmokePuff(new Vector2(PetAreaMidPoint.x, 76));
+            MakeSmokePuff(new Vector2(308, 76));
+
+            foreach (Node child in GetNode("NinePatchRect/InvContainer/InvVBox").GetChildren())
+            {
+                MakeSmokePuff((child as Control).RectGlobalPosition);
+
+                if (child is ItemButton itemButton && itemButton.Name == "Burial")
+                {
+                    itemButton.Visible = true;
+                }
+                else
+                {
+                    child.QueueFree();
+                }
+            }
+        }
+
+        public async void EndGame()
+        {
+            tween.InterpolateProperty(fadeOverlay, "modulate", Colors.Transparent, Colors.White, 6f);
+            tween.Start();
+
+            var timer = GetTree().CreateTimer(6.5f);
+
+            await ToSignal(timer, "timeout");
+
+            GetTree().ChangeScene("res://scenes/Menus/GameEndScreen.tscn");
+            QueueFree();
         }
     }
 }

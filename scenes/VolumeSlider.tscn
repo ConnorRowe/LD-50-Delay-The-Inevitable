@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://textures/sound_icon.png" type="Texture" id=1]
+[ext_resource path="res://scenes/VolumeSlider.cs" type="Script" id=2]
+
+[sub_resource type="StyleBoxLine" id=12]
+color = Color( 1, 1, 1, 1 )
+grow_begin = 2.0
+grow_end = 2.0
+thickness = 2
+
+[sub_resource type="StyleBoxEmpty" id=13]
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[node name="VolumeSlider" type="HSlider"]
+margin_left = 23.0
+margin_top = 7.0
+margin_right = 146.0
+margin_bottom = 23.0
+custom_icons/grabber_disabled = ExtResource( 1 )
+custom_icons/grabber_highlight = ExtResource( 1 )
+custom_icons/grabber = ExtResource( 1 )
+custom_styles/slider = SubResource( 12 )
+custom_styles/grabber_area_highlight = SubResource( 13 )
+custom_styles/grabber_area = SubResource( 14 )
+max_value = 1.0
+step = 0.001
+value = 0.5
+script = ExtResource( 2 )

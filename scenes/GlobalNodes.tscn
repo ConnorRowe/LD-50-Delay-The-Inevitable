@@ -1,7 +1,22 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://audio/theme_mix.ogg" type="AudioStream" id=1]
 [ext_resource path="res://scenes/GlobalNodes.cs" type="Script" id=2]
+[ext_resource path="res://audio/uiclick.wav" type="AudioStream" id=3]
+[ext_resource path="res://audio/smokepuff.wav" type="AudioStream" id=4]
+[ext_resource path="res://audio/chomp.wav" type="AudioStream" id=5]
+
+[sub_resource type="AudioStreamRandomPitch" id=1]
+audio_stream = ExtResource( 3 )
+random_pitch = 1.4
+
+[sub_resource type="AudioStreamRandomPitch" id=2]
+audio_stream = ExtResource( 4 )
+random_pitch = 1.2
+
+[sub_resource type="AudioStreamRandomPitch" id=3]
+audio_stream = ExtResource( 5 )
+random_pitch = 1.4
 
 [node name="GlobalNodes" type="Node"]
 script = ExtResource( 2 )
@@ -10,5 +25,16 @@ script = ExtResource( 2 )
 stream = ExtResource( 1 )
 autoplay = true
 bus = "Music"
+
+[node name="FartPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="UIClickPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 1 )
+
+[node name="PuffPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 2 )
+
+[node name="ChompPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 3 )
 
 [node name="Tween" type="Tween" parent="."]

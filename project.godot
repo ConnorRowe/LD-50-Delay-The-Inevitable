@@ -10,9 +10,13 @@ config_version=4
 
 [application]
 
-config/name="LD-50-Delay-The-Inevitable"
-run/main_scene="res://scenes/World.tscn"
+config/name="BlorbSitter"
+run/main_scene="res://scenes/Menus/ContentWarningScreen.tscn"
+boot_splash/image="res://textures/splash_screen.png"
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0.0941176, 0.0784314, 0.145098, 1 )
 config/icon="res://icon.png"
+config/windows_native_icon="res://win_icon.ico"
 
 [autoload]
 
